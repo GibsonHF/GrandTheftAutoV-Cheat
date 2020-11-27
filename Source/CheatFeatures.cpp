@@ -24,7 +24,7 @@ int PostInitBannerNotificationScaleformHandle;
 void Cheat::CheatFeatures::NoneLooped()
 {
 	//Initialize Texture File
-	Cheat::GUI::Drawing::InitTextureFile();
+	Cheat::GUI::InitializeTextureFile();
 
 	//Load Config
 	Cheat::CheatFunctions::LoadConfig();
@@ -35,7 +35,7 @@ void Cheat::CheatFeatures::NoneLooped()
 	//Init Scaleform Banner Notification
 	std::string OpenGUIString = "Cheat has been successfully initialized. Have fun!\nPress " + Cheat::CheatFunctions::VirtualKeyCodeToString(Cheat::GUI::openKey) + " to open GUI";
 	PostInitBannerNotificationScaleformHandle = GRAPHICS::REQUEST_SCALEFORM_MOVIE("mp_big_message_freemode");
-	while (!GRAPHICS::HAS_SCALEFORM_MOVIE_LOADED(PostInitBannerNotificationScaleformHandle)) { WAIT(0, false); }
+	while (!GRAPHICS::HAS_SCALEFORM_MOVIE_LOADED(PostInitBannerNotificationScaleformHandle)) { GameHooking::PauseMainFiber(0, false); }
 	GRAPHICS::BEGIN_SCALEFORM_MOVIE_METHOD(PostInitBannerNotificationScaleformHandle, "SHOW_SHARD_WASTED_MP_MESSAGE");
 	GRAPHICS::_ADD_SCALEFORM_MOVIE_METHOD_PARAMETER_STRING("<FONT FACE='$Font2'>GTAV Cheat");
 	GRAPHICS::_ADD_SCALEFORM_MOVIE_METHOD_PARAMETER_STRING(CheatFunctions::StringToChar(OpenGUIString));
@@ -719,7 +719,7 @@ void Cheat::CheatFeatures::TeleportGun()
 		if (WEAPON::GET_PED_LAST_WEAPON_IMPACT_COORD(Cheat::GameFunctions::PlayerPedID, &iCoord))
 		{
 			ENTITY::SET_ENTITY_COORDS(Cheat::GameFunctions::PlayerPedID, iCoord.x, iCoord.y, iCoord.z + 1, 0, 0, 1, 1);
-			WAIT(0, false);
+			GameHooking::PauseMainFiber(0, false);
 		}
 	}
 }
@@ -753,7 +753,7 @@ void Cheat::CheatFeatures::CartoonGun()
 	Entity WeaponEntityHandle = WEAPON::GET_CURRENT_PED_WEAPON_ENTITY_INDEX(Cheat::GameFunctions::PlayerPedID);
 	if (PED::IS_PED_SHOOTING(Cheat::GameFunctions::PlayerPedID))
 	{
-		while (!STREAMING::HAS_NAMED_PTFX_ASSET_LOADED("scr_rcbarry2")) { STREAMING::REQUEST_NAMED_PTFX_ASSET("scr_rcbarry2"); WAIT(0); }
+		while (!STREAMING::HAS_NAMED_PTFX_ASSET_LOADED("scr_rcbarry2")) { STREAMING::REQUEST_NAMED_PTFX_ASSET("scr_rcbarry2"); GameHooking::PauseMainFiber(0); }
 		GAMEPLAY::GET_MODEL_DIMENSIONS(WEAPON::GET_SELECTED_PED_WEAPON(Cheat::GameFunctions::PlayerPedID), &v0, &v1);
 		GRAPHICS::USE_PARTICLE_FX_ASSET("scr_rcbarry2");
 		GRAPHICS::START_NETWORKED_PARTICLE_FX_NON_LOOPED_ON_ENTITY("muz_clown", WeaponEntityHandle, (v0.x - v1.x) / 2.0f + 0.7f, 0.f, 0.f, 0.f, 180.f, 0.f, 1.f, true, true, true);
@@ -906,7 +906,7 @@ void Cheat::CheatFeatures::VehicleGun()
 		int vehmodel = GAMEPLAY::GET_HASH_KEY(CheatFunctions::StringToChar(VehicleGun_VehicleNameString));
 		STREAMING::REQUEST_MODEL(vehmodel);
 
-		while (!STREAMING::HAS_MODEL_LOADED(vehmodel)) { WAIT(0); }
+		while (!STREAMING::HAS_MODEL_LOADED(vehmodel)) { GameHooking::PauseMainFiber(0); }
 
 		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(Cheat::GameFunctions::PlayerPedID, 0.0, 5.0, 0.0);
 
@@ -1032,7 +1032,7 @@ void Cheat::CheatFeatures::DriveOnWater()
 		else {
 			Hash model = GAMEPLAY::GET_HASH_KEY("prop_container_ld2");
 			STREAMING::REQUEST_MODEL(model);
-			while (!STREAMING::HAS_MODEL_LOADED(model)) WAIT(0);
+			while (!STREAMING::HAS_MODEL_LOADED(model)) GameHooking::PauseMainFiber(0);
 			container = OBJECT::CREATE_OBJECT(model, pos.x, pos.y, pos.z, 1, 1, 0);
 
 			(container);
@@ -1046,7 +1046,7 @@ void Cheat::CheatFeatures::DriveOnWater()
 		if (ENTITY::DOES_ENTITY_EXIST(container)) {
 			Cheat::GameFunctions::RequestControlOfEnt(container);
 			ENTITY::SET_ENTITY_COORDS(container, 0, 0, -1000.0f, 0, 0, 0, 1);
-			WAIT(10);
+			GameHooking::PauseMainFiber(10);
 			ENTITY::SET_ENTITY_AS_NO_LONGER_NEEDED(&container);
 			ENTITY::DELETE_ENTITY(&container);
 			WATER::_RESET_CURRENT_INTENSITY();
@@ -1123,7 +1123,7 @@ void Cheat::CheatFeatures::MoneyDrop()
 		Hash PolyBag = GAMEPLAY::GET_HASH_KEY("p_poly_bag_01_s");
 		Vector3 pp = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(Cheat::CheatFeatures::selectedPlayer), 0.0, 0.0, 1.0);
 		STREAMING::REQUEST_MODEL(PolyBag);
-		while (!STREAMING::HAS_MODEL_LOADED(PolyBag)) { WAIT(0); }
+		while (!STREAMING::HAS_MODEL_LOADED(PolyBag)) { GameHooking::PauseMainFiber(0); }
 		if (STREAMING::HAS_MODEL_LOADED(PolyBag))
 		{
 			OBJECT::CREATE_AMBIENT_PICKUP(0xCE6FDD6B, pp.x, pp.y, pp.z, 0, 2500, PolyBag, false, true);
@@ -1144,7 +1144,7 @@ void Cheat::CheatFeatures::MoneyGun()
 		{
 			Hash PolyBag = GAMEPLAY::GET_HASH_KEY("p_poly_bag_01_s");
 			STREAMING::REQUEST_MODEL(PolyBag);
-			while (!STREAMING::HAS_MODEL_LOADED(PolyBag)) { WAIT(0, false); }
+			while (!STREAMING::HAS_MODEL_LOADED(PolyBag)) { GameHooking::PauseMainFiber(0, false); }
 			if (STREAMING::HAS_MODEL_LOADED(PolyBag)) { OBJECT::CREATE_AMBIENT_PICKUP(0xCE6FDD6B, coords.x, coords.y, coords.z + 1.f, 0, 2500, PolyBag, false, true); STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PolyBag); }
 		}	
 	}
@@ -1188,7 +1188,7 @@ void Cheat::CheatFeatures::VehicleWeapons()
 
 		if (VehicleWeapons_TankRounds || VehicleWeapons_VehicleRockets || VehicleWeapons_Fireworks)
 		{
-			if (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket)) { WEAPON::REQUEST_WEAPON_ASSET(weaponAssetRocket, 31, 0); while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket)) { WAIT(0); } }
+			if (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket)) { WEAPON::REQUEST_WEAPON_ASSET(weaponAssetRocket, 31, 0); while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket)) { GameHooking::PauseMainFiber(0); } }
 
 			Vector3 coords0from = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(veh, -(v1.x + 0.25f), v1.y + 1.25f, 0.1f);
 			Vector3 coords1from = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(veh, (v1.x + 0.25f), v1.y + 1.25f, 0.1f);
@@ -1258,13 +1258,13 @@ void Cheat::CheatFeatures::CustomWeaponBullets()
 		if (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket1) || !WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket2) || !WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket3) || !WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket4))
 		{
 			WEAPON::REQUEST_WEAPON_ASSET(weaponAssetRocket1, 31, 0);
-			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket1)) { WAIT(0); }
+			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket1)) { GameHooking::PauseMainFiber(0); }
 			WEAPON::REQUEST_WEAPON_ASSET(weaponAssetRocket2, 31, 0);
-			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket2)) { WAIT(0); }
+			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket2)) { GameHooking::PauseMainFiber(0); }
 			WEAPON::REQUEST_WEAPON_ASSET(weaponAssetRocket3, 31, 0);
-			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket3)) { WAIT(0); }
+			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket3)) { GameHooking::PauseMainFiber(0); }
 			WEAPON::REQUEST_WEAPON_ASSET(weaponAssetRocket4, 31, 0);
-			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket4)) { WAIT(0); }
+			while (!WEAPON::HAS_WEAPON_ASSET_LOADED(weaponAssetRocket4)) { GameHooking::PauseMainFiber(0); }
 		}
 		if (CustomWeaponBullets_ValkyrieGun) { GAMEPLAY::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(spawnPosition.x, spawnPosition.y, spawnPosition.z, endPosition.x, endPosition.y, endPosition.z, 250, 1, weaponAssetRocket1, Cheat::GameFunctions::PlayerPedID, 1, 0, -1.0); }
 		if (CustomWeaponBullets_TankBullets) { GAMEPLAY::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(spawnPosition.x, spawnPosition.y, spawnPosition.z, endPosition.x, endPosition.y, endPosition.z, 250, 1, weaponAssetRocket2, Cheat::GameFunctions::PlayerPedID, 1, 0, -1.0); }

@@ -1,7 +1,5 @@
-#pragma once
 #include "stdafx.h"
 
-HANDLE MainFiber;
 uint64_t*															GameHooking::m_frameCount;
 IsDLCPresent														GameHooking::is_DLC_present;
 SetSessionWeather													GameHooking::session_weather;
@@ -14,7 +12,6 @@ GetPlayerAddress													GameHooking::get_player_address;
 GetChatData														    GameHooking::get_chat_data;
 static eGameState* 													m_gameState;
 static uint64_t														m_worldPtr;
-static BlipList*													m_blipList;
 static GameHooking::NativeRegistrationNew**							m_registrationTable;
 static std::unordered_map<uint64_t, GameHooking::NativeHandler>		m_handlerCache;
 static __int64**													m_globalPtr;
@@ -30,13 +27,9 @@ DWORD CMetaData::m_size												= 0;
 IsDLCPresent IsDLCPresentOriginal = nullptr;
 bool IsDLCPresentHooked(std::uint32_t DLCHash)
 {
-	static uint64_t	Last = 0;
-	uint64_t cur = *GameHooking::m_frameCount;
-	if (Last != cur)
-	{
-		Last = cur;
-		GameHooking::onTickInit();
-	}
+	static uint64_t Last = 0;
+	uint64_t Current = *GameHooking::m_frameCount;
+	if (Last != Current) { Last = Current; GameHooking::OnTickInit(); }
 	if (DLCHash == 2532323046 && Cheat::CheatFeatures::GTAODeveloperMode) { return true; }
 	return IsDLCPresentOriginal(DLCHash);
 }
@@ -99,10 +92,9 @@ __int64 GetChatDataHooked(__int64 a1, __int64 a2, __int64 a3, const char* origTe
 	{
 		Cheat::LogFunctions::MessageCustomCategory("Chat Logger", "Message: '" + (std::string)origText + "'");
 	}
-
-
 	return GetChatDataOriginal(a1, a2, a3, origText, isTeam);
 }
+
 
 void ScriptFunction(LPVOID lpParameter)
 {
@@ -111,7 +103,8 @@ void ScriptFunction(LPVOID lpParameter)
 }
 
 DWORD WakeTime;
-void GameHooking::onTickInit()
+HANDLE MainFiber;
+void GameHooking::OnTickInit()
 {
 	static HANDLE scriptFiber;
 	if (MainFiber == nullptr) { MainFiber = ConvertThreadToFiber(nullptr); }
@@ -119,7 +112,7 @@ void GameHooking::onTickInit()
 	if (scriptFiber) { SwitchToFiber(scriptFiber); } else  { scriptFiber = CreateFiber(NULL, ScriptFunction, nullptr); }
 }
 
-void WAIT(DWORD ms, bool ShowMessage)
+void GameHooking::PauseMainFiber(DWORD ms, bool ShowMessage)
 {
 	if (ShowMessage) { Cheat::GUI::Drawing::Text("One moment please", { 255, 255, 255, 255 }, { 0.525f, 0.400f }, { 1.5f, 1.5f }, true); }
 	WakeTime = timeGetTime() + ms;
@@ -362,11 +355,6 @@ void GameHooking::DoGameHooking()
 	Cheat::LogFunctions::DebugMessage("Load 'World Pointer'");
 	c_location = Memory::pattern("48 8B 05 ? ? ? ? 45 ? ? ? ? 48 8B 48 08 48 85 C9 74 07").count(1).get(0).get<char>(0);
 	c_location == nullptr ? Cheat::LogFunctions::Error("Failed to hook World Pointer", true) : m_worldPtr = reinterpret_cast<uint64_t>(c_location) + *reinterpret_cast<int*>(reinterpret_cast<uint64_t>(c_location) + 3) + 7;
-
-	//Hook Game Blip List
-	Cheat::LogFunctions::DebugMessage("Load 'Blip List'");
-	c_location = Memory::pattern("4C 8D 05 ? ? ? ? 0F B7 C1").count(1).get(0).get<char>(0);
-	c_location == nullptr ? Cheat::LogFunctions::Error("Failed to hook Blip List", true) : m_blipList = (BlipList*)(c_location + *reinterpret_cast<int*>(c_location + 3) + 7);
 
 	//Hook Active Game Thread
 	Cheat::LogFunctions::DebugMessage("Load 'Active Game Thread'");

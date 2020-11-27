@@ -5,7 +5,7 @@ void Cheat::GameFunctions::GiveAllWeaponsToPlayer(Ped Player)
 	for (int i = 0; i < (sizeof(Cheat::GameArrays::WeaponsHashList) / sizeof Cheat::GameArrays::WeaponsHashList[0]); i++)
 	{
 		WEAPON::GIVE_DELAYED_WEAPON_TO_PED(Player, Cheat::GameArrays::WeaponsHashList[i], 9999, false);
-		WAIT(0.1);
+		GameHooking::PauseMainFiber(0.1);
 	}
 }
 
@@ -181,7 +181,7 @@ void Cheat::GameFunctions::RequestControl(Entity input)
 	{
 		if (!NETWORK::NETWORK_HAS_CONTROL_OF_ENTITY(input))
 		{
-			WAIT(0);
+			GameHooking::PauseMainFiber(0);
 		}
 		else
 		{
@@ -311,7 +311,7 @@ void Cheat::GameFunctions::TeleportToCoords(Entity e, Vector3 coords, bool AutoC
 		for (int i = 0; i < sizeof(groundCheckHeight) / sizeof(float); i++)
 		{
 			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(e, coords.x, coords.y, groundCheckHeight[i], 0, 0, 1);
-			WAIT(100);
+			GameHooking::PauseMainFiber(100);
 			if (GAMEPLAY::GET_GROUND_Z_FOR_3D_COORD(coords.x, coords.y, groundCheckHeight[i], &coords.z, 0))
 			{
 				groundFound = true;
@@ -376,7 +376,7 @@ Ped Cheat::GameFunctions::CreatePed(char* PedName, Vector3 SpawnCoordinates, int
 		if (STREAMING::IS_MODEL_VALID(PedHash))
 		{
 			STREAMING::REQUEST_MODEL(PedHash);
-			while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
+			while (!STREAMING::HAS_MODEL_LOADED(PedHash)) GameHooking::PauseMainFiber(0);
 
 			NewPed = PED::CREATE_PED(ped_type, PedHash, SpawnCoordinates.x, SpawnCoordinates.y, SpawnCoordinates.z, 0, network_handle, 1);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
@@ -440,7 +440,7 @@ void Cheat::GameFunctions::TPto(Vector3 Coords)
 char* Cheat::GameFunctions::DisplayKeyboardAndReturnInput(int MaxInput)
 {
 	GAMEPLAY::DISPLAY_ONSCREEN_KEYBOARD(0, "", "", "", "", "", "", MaxInput);
-	while (GAMEPLAY::UPDATE_ONSCREEN_KEYBOARD() == 0) WAIT(0, false);
+	while (GAMEPLAY::UPDATE_ONSCREEN_KEYBOARD() == 0) GameHooking::PauseMainFiber(0, false);
 	if (!GAMEPLAY::GET_ONSCREEN_KEYBOARD_RESULT()) return "0";
 	return GAMEPLAY::GET_ONSCREEN_KEYBOARD_RESULT();
 }
@@ -1094,7 +1094,7 @@ void Cheat::GameFunctions::AttachObjectToPed(Ped Ped, char* ObjectName)
 		if (STREAMING::IS_MODEL_VALID(hash))
 		{
 			STREAMING::REQUEST_MODEL(hash);
-			while (!STREAMING::HAS_MODEL_LOADED(hash)) WAIT(0);
+			while (!STREAMING::HAS_MODEL_LOADED(hash)) GameHooking::PauseMainFiber(0);
 
 			if (STREAMING::HAS_MODEL_LOADED(hash))
 			{
@@ -1159,7 +1159,7 @@ void Cheat::GameFunctions::SpawnVehicle(char* ModelHash)
 	if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_A_VEHICLE(model)) { Cheat::GameFunctions::MinimapNotification("~r~That is not a valid vehicle model"); return; }
 	if (Cheat::CheatFeatures::VehicleSpawnerDeleteOldVehicle) { Cheat::GameFunctions::DeleteVehicle(PED::GET_VEHICLE_PED_IS_USING(Cheat::GameFunctions::PlayerPedID)); }
 	STREAMING::REQUEST_MODEL(GAMEPLAY::GET_HASH_KEY(ModelHash));
-	while (!STREAMING::HAS_MODEL_LOADED(GAMEPLAY::GET_HASH_KEY(ModelHash))) { WAIT(0); }
+	while (!STREAMING::HAS_MODEL_LOADED(GAMEPLAY::GET_HASH_KEY(ModelHash))) { GameHooking::PauseMainFiber(0); }
 	Vector3 pos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(Cheat::GameFunctions::PlayerPedID, 0.0, 5.0, 0);
 	auto veh = VEHICLE::CREATE_VEHICLE(GAMEPLAY::GET_HASH_KEY(ModelHash), pos.x, pos.y, pos.z, ENTITY::GET_ENTITY_HEADING(Cheat::GameFunctions::PlayerPedID), 1, 1);
 	if (veh != 0)
@@ -1455,7 +1455,7 @@ void Cheat::GameFunctions::EnableDisableCursorGUINavigation()
 void Cheat::GameFunctions::ChangePedModelLocalPlayer(Hash PedModel)
 {
 	STREAMING::REQUEST_MODEL(PedModel);
-	while (!STREAMING::HAS_MODEL_LOADED(PedModel)) { WAIT(0); }
+	while (!STREAMING::HAS_MODEL_LOADED(PedModel)) { GameHooking::PauseMainFiber(0); }
 	PLAYER::SET_PLAYER_MODEL(Cheat::GameFunctions::PlayerID, PedModel);
 	PED::SET_PED_DEFAULT_COMPONENT_VARIATION(Cheat::GameFunctions::PlayerPedID);
 	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedModel);
@@ -1467,10 +1467,7 @@ bool Cheat::GameFunctions::PlayerIsFreemodeScriptHost(Player Player)
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 void Cheat::GameFunctions::CopySelectedPlayerOutfit(Player SelectedPlayer)
@@ -1479,7 +1476,7 @@ void Cheat::GameFunctions::CopySelectedPlayerOutfit(Player SelectedPlayer)
 	for (int i = 0; i < 12; i++)
 	{
 		PED::SET_PED_COMPONENT_VARIATION(Cheat::GameFunctions::PlayerPedID, i, PED::GET_PED_DRAWABLE_VARIATION(SelectedPlayerPedHandle, i), PED::GET_PED_TEXTURE_VARIATION(SelectedPlayerPedHandle, i), PED::GET_PED_PALETTE_VARIATION(SelectedPlayerPedHandle, i));
-		WAIT(0, true);
+		GameHooking::PauseMainFiber(0, true);
 	}
 }
 

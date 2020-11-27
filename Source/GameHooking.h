@@ -28,7 +28,8 @@ public:
 
 	static void DoGameHooking();
 	static uint64_t getWorldPtr();
-	static void onTickInit();
+	static void OnTickInit();
+	static void PauseMainFiber(DWORD ms, bool ShowMessage = true);
 	static __int64** getGlobalPtr();
 	static void defuseEvent(GameEvents e, bool toggle);
 	typedef void(__cdecl * NativeHandler)(scrNativeCallContext * context);
@@ -83,8 +84,6 @@ public:
 	};
 	static NativeHandler GetNativeHandler(uint64_t origHash);
 };
-
-void WAIT(DWORD ms, bool ShowMessage = true);
 
 
 enum eThreadState

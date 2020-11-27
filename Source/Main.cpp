@@ -1,4 +1,3 @@
-#pragma once
 #include "stdafx.h"
 int Cheat::CheatFeatures::selectedPlayer;
 float TeleportFoward = 1.f;																					//Used by Teleport Forward option
@@ -21,6 +20,7 @@ int SetPedTexture_Torso = 0, SetPedTexture_TorsoTexture = 0, SetPedTexture_Face 
 	SetPedTexture_EyesTexture = 0, SetPedTexture_Accesories = 0, SetPedTexture_AccesoriesTexture = 0, 
 	SetPedTexture_AccesoriesSec = 0, SetPedTexture_AccesoriesSecTexture = 0, SetPedTexture_Textures = 0, 
 	SetPedTexture_TexturesTexture = 0, SetPedTexture_TorsoSec = 0,  SetPedTexture_TorsoSecTexture = 0;
+
 
 void Cheat::Main()
 { 
@@ -2928,7 +2928,7 @@ void Cheat::Main()
 				{
 					Vector3 waypoint1 = UI::GET_BLIP_COORDS(UI::GET_FIRST_BLIP_INFO_ID(8));
 					STREAMING::REQUEST_MODEL(GAMEPLAY::GET_HASH_KEY("marshall"));
-					while (!STREAMING::HAS_MODEL_LOADED(GAMEPLAY::GET_HASH_KEY("marshall"))) WAIT(0);
+					while (!STREAMING::HAS_MODEL_LOADED(GAMEPLAY::GET_HASH_KEY("marshall"))) GameHooking::PauseMainFiber(0);
 					Vector3 pos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(Cheat::GameFunctions::PlayerPedID, 0.0, 5.0, 0);
 					Vehicle veh = VEHICLE::CREATE_VEHICLE(GAMEPLAY::GET_HASH_KEY("marshall"), pos.x, pos.y, pos.z, ENTITY::GET_ENTITY_HEADING(Cheat::GameFunctions::PlayerPedID), 1, 1);
 					if (veh != 0)
@@ -3615,7 +3615,7 @@ void Cheat::Main()
 					for (int i = 0; i < 3; i++)
 					{
 						STREAMING::REQUEST_MODEL(model);
-						while (!STREAMING::HAS_MODEL_LOADED(model)) WAIT(0);
+						while (!STREAMING::HAS_MODEL_LOADED(model)) GameHooking::PauseMainFiber(0);
 						Vector3 ourCoords = ENTITY::GET_ENTITY_COORDS(PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(Cheat::CheatFeatures::selectedPlayer), false);
 						float forward = 10.f;
 						float heading = ENTITY::GET_ENTITY_HEADING(PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(Cheat::CheatFeatures::selectedPlayer));
@@ -3656,7 +3656,7 @@ void Cheat::Main()
 				Hash pedm = GAMEPLAY::GET_HASH_KEY("u_m_m_jesus_01");
 				STREAMING::REQUEST_MODEL(pedm);
 				while (!STREAMING::HAS_MODEL_LOADED(pedm))
-					WAIT(0);
+					GameHooking::PauseMainFiber(0);
 				eclone[egcount] = PED::CREATE_PED(26, pedm, pos.x + rand() % 1, pos.y + rand() % 1, pos.z + 1, 0, 1, 1);
 				ENTITY::SET_ENTITY_INVINCIBLE(eclone[egcount], false);
 				PED::SET_PED_COMBAT_ABILITY(eclone[egcount], 100);
@@ -3677,7 +3677,7 @@ void Cheat::Main()
 				Hash pedm = GAMEPLAY::GET_HASH_KEY("u_m_m_jesus_01");
 				STREAMING::REQUEST_MODEL(pedm);
 				while (!STREAMING::HAS_MODEL_LOADED(pedm))
-					WAIT(0);
+					GameHooking::PauseMainFiber(0);
 				int my_group = PLAYER::GET_PLAYER_GROUP(selectedplayer);
 				clone[gcount] = PED::CREATE_PED(26, pedm, pos.x + rand() % 1, pos.y + rand() % 1, pos.z + 1, 0, 1, 1);
 				PED::SET_PED_AS_GROUP_LEADER(selectedplayer, my_group);
@@ -4170,7 +4170,7 @@ void Cheat::Main()
 			if (Cheat::Option(OpenKeyString.c_str(), "Select to change"))
 			{
 				int PressedKey;
-				while (!Cheat::CheatFunctions::ReturnPressedKey(PressedKey)) { Cheat::GUI::Drawing::Text("~bold~Press any key to set Open Key, press Escape to cancel", { 255, 255, 255, 255 }, { 0.525f, 0.400f }, { 0.900f, 0.900f }, true); WAIT(0, false); }
+				while (!Cheat::CheatFunctions::ReturnPressedKey(PressedKey)) { Cheat::GUI::Drawing::Text("~bold~Press any key to set Open Key, press Escape to cancel", { 255, 255, 255, 255 }, { 0.525f, 0.400f }, { 0.900f, 0.900f }, true); GameHooking::PauseMainFiber(0, false); }
 				if (PressedKey == 27) { Cheat::GameFunctions::MinimapNotification("Canceled Setting Open Key"); break; }
 				if (PressedKey != 0) { Cheat::GUI::openKey = PressedKey; Cheat::GameFunctions::MinimapNotification("Open Key has been set"); }
 			}
@@ -4178,7 +4178,7 @@ void Cheat::Main()
 			if (Cheat::Option(GUINavigationKeyString.c_str(), "Select to change"))
 			{
 				int PressedKey;
-				while (!Cheat::CheatFunctions::ReturnPressedKey(PressedKey)) { Cheat::GUI::Drawing::Text("~bold~Press any key to set Cursor Navigation Key, press Escape to cancel", { 255, 255, 255, 255 }, { 0.525f, 0.400f }, { 0.900f, 0.900f }, true); WAIT(0, false); }
+				while (!Cheat::CheatFunctions::ReturnPressedKey(PressedKey)) { Cheat::GUI::Drawing::Text("~bold~Press any key to set Cursor Navigation Key, press Escape to cancel", { 255, 255, 255, 255 }, { 0.525f, 0.400f }, { 0.900f, 0.900f }, true); GameHooking::PauseMainFiber(0, false); }
 				if (PressedKey == 27) { Cheat::GameFunctions::MinimapNotification("Canceled Setting Cursor Navigation Key"); break; }
 				if (PressedKey != 0) { Cheat::GUI::GUINavigationKey = PressedKey; Cheat::GameFunctions::MinimapNotification("Cursor Navigation Key has been set"); }
 			}
@@ -4387,7 +4387,7 @@ void Cheat::Main()
 		break;
 		}
 		Cheat::GUI::End();
-		WAIT(0, false);
+		GameHooking::PauseMainFiber(0, false);
 	}
 }
 

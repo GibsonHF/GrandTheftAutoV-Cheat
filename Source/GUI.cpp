@@ -55,7 +55,7 @@ bool Cheat::GUI::RestorePreviousSubmenu		= true;
 
 
 static fpFileRegister RegisterTextureFile = (fpFileRegister)(Memory::pattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 7C 24 ? 41 54 41 56 41 57 48 83 EC 50 48 8B EA 4C 8B FA 48 8B D9 4D 85 C9").count(1).get(0).get<decltype(RegisterTextureFile)>());
-void Cheat::GUI::Drawing::InitTextureFile()
+void Cheat::GUI::InitializeTextureFile()
 {
 	Cheat::LogFunctions::Message("Loading Texture File");
 	int textureID;
@@ -69,7 +69,6 @@ void Cheat::GUI::Drawing::InitTextureFile()
 		Cheat::LogFunctions::DebugMessage("Failed to load Textures.ytd");
 	}
 }
-
 
 void Cheat::GUI::Drawing::Text(std::string text, RGBAF rgbaf, VECTOR2 position, VECTOR2_2 size, bool center)
 {
@@ -86,7 +85,7 @@ void Cheat::GUI::Drawing::Spriter(std::string Streamedtexture, std::string textu
 {
 	if (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(CheatFunctions::StringToChar(Streamedtexture)))
 	{
-		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(CheatFunctions::StringToChar(Streamedtexture.c_str()), false);
+		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(CheatFunctions::StringToChar(Streamedtexture), false);
 	}
 	else
 	{

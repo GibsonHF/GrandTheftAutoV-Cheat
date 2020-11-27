@@ -1,5 +1,4 @@
 #pragma once
-
 #pragma warning(disable : 4244)			//			'argument' : conversion from 'type1' to 'type2', possible loss of data
 #pragma warning(disable : 26812)		//			The enum type type-name is unscoped. Prefer 'enum class' over 'enum' (Enum.3)
 #pragma warning(disable : 26495)		//			Variable '%variable%' is uninitialized. Always initialize a member variable.
@@ -60,7 +59,6 @@ namespace Cheat
 			void Text(std::string text, RGBAF rgbaf, VECTOR2 position, VECTOR2_2 size, bool center);
 			void Rect(RGBA rgba, VECTOR2 position, VECTOR2_2 size);
 			void Spriter(std::string Streamedtexture, std::string textureName, float x, float y, float width, float height, float rotation, int r, int g, int b, int a);
-			void InitTextureFile();
 			void DrawScaleform(const float x, const float y, const float sx, const float sy, const int r, const int g, const int b);
 		}
 
@@ -130,6 +128,7 @@ namespace Cheat
 		extern int leftpress;
 		extern int rightpress;
 		extern void DeleteCurrentTheme();
+		void InitializeTextureFile();
 		void MoveMenu(SubMenus menu);
 		void BackMenu();
 		void CloseGUI();

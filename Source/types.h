@@ -47,34 +47,3 @@ typedef struct
 	float z;
 } Vector3_t;
 #pragma pack(pop)
-
-struct Blip_t {
-public:
-	__int32 iID;
-	__int8 iID2;
-	char _0x0005[3];
-	BYTE N000010FB;
-	char _0x0009[7];
-	Vector3 coords;
-	char _0x001C[6];
-	BYTE bFocused;
-	char _0x0023[5];
-	char* szMessage;
-	char _0x0030[16];
-	int iIcon;
-	char _0x0044[4];
-	DWORD dwColor;
-	char _0x004C[4];
-	float fScale;
-	__int16 iRotation;
-	BYTE bInfoIDType;
-	BYTE bZIndex;
-	BYTE bDisplay;
-	BYTE bAlpha;
-};
-
-struct BlipList {
-public:
-	Blip_t* m_Blips[1500];
-
-};

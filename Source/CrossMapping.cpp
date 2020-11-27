@@ -1,5 +1,5 @@
 #include "stdafx.h"
-::std::unordered_map<uint64_t, uint64_t> nativeHashMap;
+std::unordered_map<uint64_t, uint64_t> nativeHashMap;
 
 uint64_t HashMapDataArray[] = {
 0xDB5C71C3E9F5C572, 0xD3A58A12C77D9D4B,
