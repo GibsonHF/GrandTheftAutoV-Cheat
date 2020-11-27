@@ -335,7 +335,6 @@ namespace Cheat
 		std::string ReturnCheatModuleDirectoryPath();
 		void SaveOption(std::string OptionName, std::string OptionValue, bool IsSavable);
 		std::string GetOptionValueFromConfig(std::string OptionName);
-		char* CombineTwoChars(char* string1, char* string2);
 		bool DoesFileExists(const std::string& fileName);
 		bool DoesDirectoryExists(const std::string& dirName_in);
 		void CreateNewDirectory(std::string Path);

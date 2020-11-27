@@ -55,16 +55,6 @@ const std::string Cheat::CheatFunctions::ReturnConfigFilePath()
 }
 
 
-char str[200];
-char str2[128];
-char* Cheat::CheatFunctions::CombineTwoChars(char* string1, char* string2)
-{
-	strcpy_s(str2, "");
-	sprintf_s(str2, "%s %s", string1, string2);
-	return str2;
-}
-
-
 bool Cheat::CheatFunctions::DoesFileExists(const std::string& fileName)
 {
 	struct stat buffer;
