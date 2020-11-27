@@ -16,15 +16,6 @@ void Cheat::CheatFunctions::CreateNewDirectory(std::string Path)
 }
 
 
-bool Cheat::CheatFunctions::DoesDirectoryExists(const std::string& dirName_in)
-{
-	DWORD ftyp = GetFileAttributesA(dirName_in.c_str());
-	if (ftyp == INVALID_FILE_ATTRIBUTES) { return false; }
-	if (ftyp & FILE_ATTRIBUTE_DIRECTORY) { return true;  }
-
-	return false;   
-}
-
 //See https://en.cppreference.com/w/cpp/io/manip/put_time
 std::string Cheat::CheatFunctions::ReturnDateTimeFormatAsString(const char* DateTimeFormat)
 {
@@ -55,16 +46,19 @@ const std::string Cheat::CheatFunctions::ReturnConfigFilePath()
 }
 
 
-bool Cheat::CheatFunctions::DoesFileExists(const std::string& fileName)
+bool Cheat::CheatFunctions::FileOrDirectoryExists(std::string Path)
 {
-	struct stat buffer;
-	return (stat(fileName.c_str(), &buffer) == 0);
+	if (std::filesystem::exists(Path))
+	{
+		return true;
+	}
+	return false;
 }
 
 
 std::string Cheat::CheatFunctions::GetLastErrorAsString()
 {
-	DWORD errorMessageID = ::GetLastError();
+	DWORD errorMessageID = GetLastError();
 	if (errorMessageID == 0) { return std::string(); }
 
 	LPSTR messageBuffer = nullptr;
@@ -98,9 +92,11 @@ void Cheat::CheatFunctions::LoopedFunctions()
 
 bool Cheat::CheatFunctions::IsGameWindowFocussed()
 {
-	HWND GameWindowHandle = FindWindowA(0, "Grand Theft Auto V");
-	HWND HandleProcessWithKeyboardFocus = GetForegroundWindow();
-	if (GameWindowHandle == HandleProcessWithKeyboardFocus) { return true; } else { return false; }
+	if (FindWindowA(0, "Grand Theft Auto V") == GetForegroundWindow()) 
+	{ 
+		return true; 
+	}
+	return false;
 }
 
 

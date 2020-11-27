@@ -59,7 +59,7 @@ void Cheat::GUI::Drawing::InitTextureFile()
 {
 	Cheat::LogFunctions::Message("Loading Texture File");
 	int textureID;
-	if (Cheat::CheatFunctions::DoesFileExists(Cheat::CheatFunctions::TextureFilePath())) 
+	if (Cheat::CheatFunctions::FileOrDirectoryExists(Cheat::CheatFunctions::TextureFilePath())) 
 	{
 		RegisterTextureFile(&textureID, Cheat::CheatFunctions::TextureFilePath().c_str(), true, "Textures.ytd", false);
 	}
@@ -888,7 +888,7 @@ void Cheat::GUI::LoadThemeFilesLooped()
 {
 	Cheat::GUI::ThemeFilesVector.clear();
 	std::string ThemeFolderPath = Cheat::CheatFunctions::ReturnCheatModuleDirectoryPath() + (std::string)"\\gtav\\Themes";
-	if (!Cheat::CheatFunctions::DoesDirectoryExists(ThemeFolderPath)) { Cheat::CheatFunctions::CreateNewDirectory(ThemeFolderPath); }
+	if (!Cheat::CheatFunctions::FileOrDirectoryExists(ThemeFolderPath)) { Cheat::CheatFunctions::CreateNewDirectory(ThemeFolderPath); }
 
 	for (const auto & file : std::filesystem::directory_iterator(ThemeFolderPath.c_str())) 
 	{
@@ -903,7 +903,7 @@ void Cheat::GUI::LoadTheme(std::string ThemeFileName, bool StartUp)
 {
 	std::string ThemeFolderPath = Cheat::CheatFunctions::ReturnCheatModuleDirectoryPath() + (std::string)"\\gtav\\Themes";
 	std::string ThemeFilePath = ThemeFolderPath + "\\" + ThemeFileName + ".ini";
-	if (!Cheat::CheatFunctions::DoesFileExists(ThemeFilePath)) { Cheat::GameFunctions::MinimapNotification("~r~Requested Theme File does not exist"); return;  }
+	if (!Cheat::CheatFunctions::FileOrDirectoryExists(ThemeFilePath)) { Cheat::GameFunctions::MinimapNotification("~r~Requested Theme File does not exist"); return;  }
 
 	Cheat::GUI::CurrentTheme = ThemeFileName;
 
@@ -1075,7 +1075,7 @@ void Cheat::GUI::SaveTheme(std::string ThemeFileName)
 {
 	std::string ThemeFolderPath = Cheat::CheatFunctions::ReturnCheatModuleDirectoryPath() + (std::string)"\\gtav\\Themes";
 	std::string ThemeFilePath = ThemeFolderPath + "\\" + ThemeFileName + ".ini";
-	if (!Cheat::CheatFunctions::DoesDirectoryExists(Cheat::CheatFunctions::ReturnCheatModuleDirectoryPath() + (std::string)"\\gtav\\Themes")) 
+	if (!Cheat::CheatFunctions::FileOrDirectoryExists(Cheat::CheatFunctions::ReturnCheatModuleDirectoryPath() + (std::string)"\\gtav\\Themes"))
 	{ 
 		Cheat::CheatFunctions::CreateNewDirectory(ThemeFolderPath); 
 	}
