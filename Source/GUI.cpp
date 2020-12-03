@@ -28,18 +28,18 @@ int Cheat::GUI::PreviousMenuLevel;
 int Cheat::GUI::optionsArray			[1000];
 SubMenus Cheat::GUI::menusArray			[1000];
 std::vector <std::string> Cheat::GUI::ThemeFilesVector;
-RGBAF Cheat::GUI::count				{ 255, 255, 255, 255, FontChaletLondon };
-RGBAF Cheat::GUI::titleText			{ 255, 255, 255, 255, FontChaletLondon };
-RGBAF Cheat::GUI::optionText		{ 255, 255, 255, 255, FontChaletLondon };
-RGBAF Cheat::GUI::breakText			{ 255, 255, 255, 255, FontChaletLondon };
-RGBA Cheat::GUI::titleRect			{ 0, 0, 255, 255 };
-RGBA Cheat::GUI::MainTitleRect		{ 0, 0, 0, 255 };
-RGBA Cheat::GUI::headerRect			{ 0, 0, 255, 200 };                      
-RGBA Cheat::GUI::optionRect			{ 0, 0, 0, 255 };
-RGBA Cheat::GUI::MenuBackgroundRect	{ 0, 0, 0, 220 }; 
-RGBA Cheat::GUI::MenuBottomRect		{ 0, 0, 0, 255 };
-RGBA Cheat::GUI::scroller			{ 0, 0, 255, 255 };
-RGBA Cheat::GUI::TopAndBottomLine	{ 0, 0, 255, 255 };
+RGBAF Cheat::GUI::count					{ 255, 255, 255, 255, FontChaletLondon };
+RGBAF Cheat::GUI::titleText				{ 255, 255, 255, 255, FontChaletLondon };
+RGBAF Cheat::GUI::optionText			{ 255, 255, 255, 255, FontChaletLondon };
+RGBAF Cheat::GUI::breakText				{ 255, 255, 255, 255, FontChaletLondon };
+RGBA Cheat::GUI::titleRect				{ 0, 0, 255, 255 };
+RGBA Cheat::GUI::MainTitleRect			{ 0, 0, 0, 255 };
+RGBA Cheat::GUI::headerRect				{ 0, 0, 255, 200 };                      
+RGBA Cheat::GUI::optionRect				{ 0, 0, 0, 255 };
+RGBA Cheat::GUI::MenuBackgroundRect		{ 0, 0, 0, 220 }; 
+RGBA Cheat::GUI::MenuBottomRect			{ 0, 0, 0, 255 };
+RGBA Cheat::GUI::scroller				{ 0, 0, 255, 255 };
+RGBA Cheat::GUI::TopAndBottomLine		{ 0, 0, 255, 255 };
 
 int Cheat::GUI::keyPressDelay				= 200;
 int Cheat::GUI::keyPressPreviousTick		= GetTickCount64();
@@ -378,22 +378,22 @@ bool Cheat::Toggle(std::string option, bool & b00l, std::string InformationText,
 		{
 			if (GUI::currentOption <= GUI::maxVisOptions && GUI::optionCount <= GUI::maxVisOptions)
 			{
-				GUI::Drawing::Spriter("commonmenu", "shop_box_tick", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.03f, 0.05f, 0, 255, 255, 255, 255);
+				GUI::Drawing::Spriter("CommonMenu", "shop_box_tick", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.03f, 0.05f, 0, 255, 255, 255, 255);
 			}
 			else if ((GUI::optionCount > (GUI::currentOption - GUI::maxVisOptions)) && GUI::optionCount <= GUI::currentOption)
 			{
-				GUI::Drawing::Spriter("commonmenu", "shop_box_tick", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.03f, 0.05f, 0, 255, 255, 255, 255);
+				GUI::Drawing::Spriter("CommonMenu", "shop_box_tick", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.03f, 0.05f, 0, 255, 255, 255, 255);
 			}
 		}
 		else if (Cheat::CheatFeatures::BoolOptionVectorPosition == 1) 
 		{
 			if (GUI::currentOption <= GUI::maxVisOptions && GUI::optionCount <= GUI::maxVisOptions)
 			{
-				GUI::Drawing::Spriter("commonmenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.02f, 0.03f, 0, 43, 255, 0, 255);
+				GUI::Drawing::Spriter("CommonMenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.02f, 0.03f, 0, 43, 255, 0, 255);
 			}
 			else if ((GUI::optionCount > (GUI::currentOption - GUI::maxVisOptions)) && GUI::optionCount <= GUI::currentOption)
 			{
-				GUI::Drawing::Spriter("commonmenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.02f, 0.03f, 0, 43, 255, 0, 255);
+				GUI::Drawing::Spriter("CommonMenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.02f, 0.03f, 0, 43, 255, 0, 255);
 			}
 		}
 	}
@@ -403,22 +403,22 @@ bool Cheat::Toggle(std::string option, bool & b00l, std::string InformationText,
 		{
 			if (GUI::currentOption <= GUI::maxVisOptions && GUI::optionCount <= GUI::maxVisOptions)
 			{
-				GUI::Drawing::Spriter("commonmenu", "shop_box_blank", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.03f, 0.05f, 0, 255, 255, 255, 255);
+				GUI::Drawing::Spriter("CommonMenu", "shop_box_blank", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.03f, 0.05f, 0, 255, 255, 255, 255);
 			}
 			else if ((GUI::optionCount > (GUI::currentOption - GUI::maxVisOptions)) && GUI::optionCount <= GUI::currentOption)
 			{
-				GUI::Drawing::Spriter("commonmenu", "shop_box_blank", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.03f, 0.05f, 0, 255, 255, 255, 255);
+				GUI::Drawing::Spriter("CommonMenu", "shop_box_blank", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.03f, 0.05f, 0, 255, 255, 255, 255);
 			}
 		}
 		else if (Cheat::CheatFeatures::BoolOptionVectorPosition == 1) 
 		{
 			if (GUI::currentOption <= GUI::maxVisOptions && GUI::optionCount <= GUI::maxVisOptions)
 			{
-				GUI::Drawing::Spriter("commonmenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.02f, 0.03f, 0, 255, 0, 0, 255);
+				GUI::Drawing::Spriter("CommonMenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount * 0.035f - 0.160f), 0.02f, 0.03f, 0, 255, 0, 0, 255);
 			}
 			else if ((GUI::optionCount > (GUI::currentOption - GUI::maxVisOptions)) && GUI::optionCount <= GUI::currentOption)
 			{
-				GUI::Drawing::Spriter("commonmenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.02f, 0.03f, 0, 255, 0, 0, 255);
+				GUI::Drawing::Spriter("CommonMenu", "common_medal", Cheat::GUI::guiX + 0.090f, GUI::guiY + (GUI::optionCount - (GUI::currentOption - GUI::maxVisOptions))*0.035f - 0.160f, 0.02f, 0.03f, 0, 255, 0, 0, 255);
 			}
 		}
 	}
@@ -689,7 +689,7 @@ void Cheat::GUI::End()
 		GUI::Drawing::Text(Cheat::CheatFunctions::ReturnCheatBuildAsString(), GUI::count, { Cheat::GUI::guiX + 0.085f, GUI::guiY + ((GUI::maxVisOptions + 1) * 0.035f - 0.172f) }, { 0.30f, 0.30f }, true);
 		GUI::Drawing::Rect(GUI::MenuBottomRect, { Cheat::GUI::guiX, GUI::guiY + ((GUI::maxVisOptions + 1) * 0.035f - 0.1585f) }, { Cheat::GUI::guiWidth, 0.035f });
 		GUI::Drawing::Rect(GUI::TopAndBottomLine, { Cheat::GUI::guiX, GUI::guiY + ((GUI::maxVisOptions + 1) * 0.035f - 0.1765f) }, { Cheat::GUI::guiWidth, 0.002f });
-		GUI::Drawing::Spriter("commonmenu", "shop_arrows_upanddown", Cheat::GUI::guiX, GUI::guiY + ((GUI::maxVisOptions + 1) * 0.035f - 0.160f), 0.020f, 0.035f, 180, GUI::TopAndBottomLine.r, GUI::TopAndBottomLine.g, GUI::TopAndBottomLine.b, GUI::TopAndBottomLine.a);
+		GUI::Drawing::Spriter("CommonMenu", "shop_arrows_upanddown", Cheat::GUI::guiX, GUI::guiY + ((GUI::maxVisOptions + 1) * 0.035f - 0.160f), 0.020f, 0.035f, 180, GUI::TopAndBottomLine.r, GUI::TopAndBottomLine.g, GUI::TopAndBottomLine.b, GUI::TopAndBottomLine.a);
 
 		if (!OptionInformationText.empty()) 
 		{
@@ -704,7 +704,7 @@ void Cheat::GUI::End()
 		GUI::Drawing::Text(Cheat::CheatFunctions::ReturnCheatBuildAsString().c_str(), GUI::count, { Cheat::GUI::guiX + 0.085f, GUI::guiY + (GUI::optionCount + 1) * 0.035f - 0.172f }, { 0.30f, 0.30f }, true);
 		GUI::Drawing::Rect(GUI::MenuBottomRect, { Cheat::GUI::guiX, GUI::guiY + (GUI::optionCount + 1) * 0.035f - 0.1585f }, { Cheat::GUI::guiWidth, 0.035f });
 		GUI::Drawing::Rect(GUI::TopAndBottomLine, { Cheat::GUI::guiX, GUI::guiY + (GUI::optionCount + 1) * 0.035f - 0.1765f }, { Cheat::GUI::guiWidth, 0.002f });
-		GUI::Drawing::Spriter("commonmenu", "shop_arrows_upanddown", Cheat::GUI::guiX, GUI::guiY + ((GUI::optionCount + 1) * 0.035f - 0.160f), 0.020f, 0.035f, 180, GUI::TopAndBottomLine.r, GUI::TopAndBottomLine.g, GUI::TopAndBottomLine.b, GUI::TopAndBottomLine.a);
+		GUI::Drawing::Spriter("CommonMenu", "shop_arrows_upanddown", Cheat::GUI::guiX, GUI::guiY + ((GUI::optionCount + 1) * 0.035f - 0.160f), 0.020f, 0.035f, 180, GUI::TopAndBottomLine.r, GUI::TopAndBottomLine.g, GUI::TopAndBottomLine.b, GUI::TopAndBottomLine.a);
 
 		if (!OptionInformationText.empty())
 		{
@@ -836,10 +836,6 @@ void Cheat::GUI::BackMenu()
 	GUI::currentOption = GUI::optionsArray[GUI::menuLevel];
 }
 
-void Cheat::Speedometer(std::string text)
-{
-	GUI::Drawing::Text(text, { 0, 0, 255, 255 }, { 0.90f, 0.5000f }, { 0.70f, 0.70f }, false);
-}
 
 void Cheat::AddPlayerInfoBoxTextEntry(std::string text, int Row1, int Row2, int Row3, int Row4)
 {

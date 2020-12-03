@@ -497,7 +497,6 @@ namespace Cheat
 		};
 	}
 	void Title(std::string title);
-	void Speedometer(std::string text);
 	void AddPlayerInfoBoxTextEntry(std::string text, int Row1 = NULL, int Row2 = NULL, int Row3 = NULL, int Row4 = NULL);
 	bool Break(std::string option, bool TextCentered);
 	bool Option(std::string option, std::string InformationText);

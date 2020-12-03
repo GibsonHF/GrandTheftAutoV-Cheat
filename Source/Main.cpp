@@ -22,12 +22,84 @@ int SetPedTexture_Torso = 0, SetPedTexture_TorsoTexture = 0, SetPedTexture_Face 
 	SetPedTexture_TexturesTexture = 0, SetPedTexture_TorsoSec = 0,  SetPedTexture_TorsoSecTexture = 0;
 
 
+std::vector<SubMenu_AllOptionsStruct> AllMenuOptions = {
+	{ 1, MainMenu, SUBMENU_OPTION_TYPE_MENU, "Test", "test", false		},
+	{ 2, MainMenu, SUBMENU_OPTION_TYPE_TOGGLE, "Test", "test", false	},
+	{ 3, MainMenu, SUBMENU_OPTION_TYPE_TOGGLE, "Test2", "test2", false	},
+	{ 4, MainMenu, SUBMENU_OPTION_TYPE_INT, "Test3", "test3", false		},
+	{ 5, MainMenu, SUBMENU_OPTION_TYPE_OPTION, "Test3", "test3", false	}
+};
+std::vector<SubMenu_MenuOptionsStruct> MenuMenuOptions = {
+	{ 1, SettingsMenu }
+};
+std::vector<SubMenu_ToggleOptionsStruct> MenuToggleOptions = {
+	{ 2, Cheat::CheatFeatures::GodmodeBool, true },
+	{ 3, Cheat::CheatFeatures::GodmodeBool, false }
+};
+std::vector<SubMenu_IntOptionsStruct> MenuIntOptions = {
+	{ 2, Cheat::CheatFeatures::MoneyDropDelay, 0, 2000, 50, false }
+};
+
 void Cheat::Main()
 { 
-	Cheat::CheatFeatures::NoneLooped();
+	Cheat::CheatFeatures::NoneLooped();	
 	while (true) 
 	{
 		Cheat::CheatFunctions::LoopedFunctions();
+
+
+		for (int i = 0; i < AllMenuOptions.size(); i++)
+		{
+			if (AllMenuOptions[i].SubMenuName == Cheat::GUI::currentMenu)
+			{
+				if (AllMenuOptions[i].OptionType == SUBMENU_OPTION_TYPE_OPTION)
+				{
+					if (Cheat::Option(AllMenuOptions[i].OptionName, AllMenuOptions[i].OptionDescription))
+					{
+
+					}
+				}
+				else if (AllMenuOptions[i].OptionType == SUBMENU_OPTION_TYPE_MENU)
+				{
+					for (int AllMenuOptionsIndex = 0; AllMenuOptionsIndex < MenuMenuOptions.size(); AllMenuOptionsIndex++)
+					{
+						if (AllMenuOptions[i].ID == MenuMenuOptions[AllMenuOptionsIndex].ID)
+						{
+							Cheat::MenuOption(AllMenuOptions[i].OptionName + " >", MenuMenuOptions[AllMenuOptionsIndex].NewSubmenu);
+						}
+					}
+				}			
+				else if (AllMenuOptions[i].OptionType == SUBMENU_OPTION_TYPE_TOGGLE)
+				{
+					for (int ToggleOptionsIndex = 0; ToggleOptionsIndex < MenuToggleOptions.size(); ToggleOptionsIndex++)
+					{
+						if (AllMenuOptions[i].ID == MenuToggleOptions[ToggleOptionsIndex].ID)
+						{
+							Cheat::Toggle(AllMenuOptions[i].OptionName, MenuToggleOptions[ToggleOptionsIndex].ToggleBoolean, AllMenuOptions[i].OptionDescription, MenuToggleOptions[ToggleOptionsIndex].IsSavable);
+						}
+					}
+				}
+				else if (AllMenuOptions[i].OptionType == SUBMENU_OPTION_TYPE_INT)
+				{
+					for (int ToggleOptionsIndex = 0; ToggleOptionsIndex < MenuIntOptions.size(); ToggleOptionsIndex++)
+					{
+						if (AllMenuOptions[i].ID == MenuIntOptions[ToggleOptionsIndex].ID)
+						{
+							Cheat::Int(AllMenuOptions[i].OptionName, MenuIntOptions[i].Integer, MenuIntOptions[i].IntegerMin, MenuIntOptions[i].IntegerMax, MenuIntOptions[i].IntegerStep,
+									   AllMenuOptions[i].DisableOptionControl, MenuIntOptions[i].IsSavable, AllMenuOptions[i].OptionDescription);
+						}
+					}
+
+
+					
+				}
+				else if (AllMenuOptions[i].OptionType == SUBMENU_OPTION_TYPE_FLOAT)
+				{
+					//Cheat::Toggle(AllMenuOptions[i].OptionName, AllMenuOptions[i].ToggleBoolean, AllMenuOptions[i].OptionDescription, AllMenuOptions[i].IsSavable);
+				}
+			}
+		}
+
 
 		switch (Cheat::GUI::currentMenu) {
 		case MainMenu:

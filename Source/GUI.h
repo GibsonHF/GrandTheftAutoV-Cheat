@@ -131,3 +131,54 @@ typedef struct RGB
 {
 	int r, g, b;
 };
+
+enum SubMenuOptionTypes
+{
+	SUBMENU_OPTION_TYPE_MENU = 0,
+	SUBMENU_OPTION_TYPE_OPTION,
+	SUBMENU_OPTION_TYPE_TOGGLE,
+	SUBMENU_OPTION_TYPE_INT,
+	SUBMENU_OPTION_TYPE_FLOAT,
+	SUBMENU_OPTION_TYPE_FLOAT_VECTOR
+};
+
+
+struct SubMenu_AllOptionsStruct
+{
+	int ID;
+	SubMenus SubMenuName;
+	SubMenuOptionTypes OptionType;
+	std::string OptionName;
+	std::string OptionDescription;
+	bool DisableOptionControl;
+};
+struct SubMenu_MenuOptionsStruct
+{
+	int ID;
+	SubMenus NewSubmenu;
+};
+struct SubMenu_ToggleOptionsStruct
+{
+	int ID;
+	bool& ToggleBoolean;
+	bool IsSavable;
+};
+struct SubMenu_IntOptionsStruct
+{
+	int ID;
+	int& Integer;
+	int IntegerMin;
+	int IntegerMax;
+	int IntegerStep;
+	bool IsSavable;
+};
+struct SubMenu_FloatOptionsStruct
+{
+	int ID;
+	bool IsSavable;
+};
+struct SubMenu_FloatVectorOptionsStruct
+{
+	int ID;
+	bool IsSavable;
+};
